@@ -1,0 +1,134 @@
+prompt_injection:
+  - pattern: "(?i)ignore\\s+(previous|above|all|prior)\\s+(instructions?|prompts?|commands?)"
+    severity: "critical"
+    description: "Tentative d'ignorer les instructions système"
+  
+  - pattern: "(?i)ignore\\s+all"
+    severity: "high"
+    description: "Tentative d'ignorer le contexte"
+  
+  - pattern: "(?i)(forget|disregard|dismiss)\\s+(everything|all|previous|prior)"
+    severity: "critical"
+    description: "Tentative d'effacer le contexte"
+  
+  - pattern: "(?i)you\\s+are\\s+(now|a|an)\\s+(DAN|evil|unethical|unrestricted)"
+    severity: "critical"
+    description: "Tentative de modification du rôle"
+  
+  - pattern: "(?i)(system|assistant)\\s*:\\s*(you|ignore|forget)"
+    severity: "high"
+    description: "Injection de prompt système"
+  
+  - pattern: "(?i)\\[\\s*(SYSTEM|ADMIN|ROOT)\\s*\\]"
+    severity: "high"
+    description: "Faux message système"
+  
+  - pattern: "(?i)ignore[rz]?\\s+(toute|les|toutes)\\s+(les\\s+)?(instructions?|consignes?|directives?)(\\s+précédentes?)?"
+    severity: "critical"
+    description: "Tentative d'ignorer les instructions système (FR)"
+  
+  - pattern: "(?i)oublie[rz]?\\s+(tout|toute|les|toutes)"
+    severity: "critical"
+    description: "Tentative d'effacer le contexte (FR)"
+  
+  - pattern: "(?i)(ne\\s+tiens?\\s+pas\\s+compte|fait\\s+abstraction)\\s+de"
+    severity: "high"
+    description: "Tentative de contournement des instructions (FR)"
+  
+  - pattern: "(?i)tu\\s+es\\s+(maintenant|désormais)\\s+(un|une|DAN)"
+    severity: "critical"
+    description: "Tentative de modification du rôle (FR)"
+  
+  - pattern: "(?i)\\[\\s*(SYSTÈME|ADMIN|ROOT)\\s*\\]"
+    severity: "high"
+    description: "Faux message système (FR)"
+  
+  - pattern: "(?i)sans\\s+(restriction|limite|contrainte)s?"
+    severity: "high"
+    description: "Demande de mode sans restriction (FR)"
+
+jailbreak:
+  - pattern: "(?i)do\\s+anything\\s+now"
+    severity: "critical"
+    description: "DAN jailbreak"
+  
+  - pattern: "(?i)pretend\\s+(you're|to\\s+be)\\s+(not|without)"
+    severity: "high"
+    description: "Attaque role-playing"
+  
+  - pattern: "(?i)hypothetically"
+    severity: "medium"
+    description: "Scénario hypothétique suspect"
+  
+  - pattern: "(?i)(developer|admin|god)\\s+mode"
+    severity: "critical"
+    description: "Tentative d'activation mode développeur"
+  
+  - pattern: "(?i)(unrestricted|unfiltered|uncensored)\\s+(mode|access)"
+    severity: "critical"
+    description: "Demande d'accès non restreint"
+  
+  - pattern: "(?i)fais\\s+(tout|n'importe\\s+quoi)\\s+(maintenant|sans\\s+limite)"
+    severity: "critical"
+    description: "DAN jailbreak (FR)"
+  
+  - pattern: "(?i)fais\\s+semblant\\s+(d'être|que\\s+tu\\s+es)"
+    severity: "high"
+    description: "Attaque role-playing (FR)"
+  
+  - pattern: "(?i)hypothétiquement|dans\\s+l'hypothèse"
+    severity: "medium"
+    description: "Scénario hypothétique suspect (FR)"
+  
+  - pattern: "(?i)mode\\s+(développeur|administrateur|dieu|admin)"
+    severity: "critical"
+    description: "Tentative d'activation mode développeur (FR)"
+  
+  - pattern: "(?i)(sans\\s+restriction|non\\s+restreint|non\\s+censuré)"
+    severity: "critical"
+    description: "Demande d'accès non restreint (FR)"
+  
+  - pattern: "(?i)désactive\\s+(les\\s+)?(filtres?|sécurités?|protections?)"
+    severity: "critical"
+    description: "Tentative de désactivation des protections (FR)"
+
+data_leak:
+  - pattern: "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b"
+    severity: "high"
+    description: "Email détecté"
+    type: "email"
+  
+  - pattern: "\\b(?:\\d{4}[-\\s]?){3}\\d{4}\\b"
+    severity: "critical"
+    description: "Numéro de carte bancaire"
+    type: "credit_card"
+  
+  - pattern: "(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}"
+    severity: "medium"
+    description: "Numéro de téléphone français"
+    type: "phone"
+  
+  - pattern: "(?i)(api[_-]?key|apikey|api[_-]?secret|clé[_-]?api)\\s*[:=]\\s*['\"]?([a-zA-Z0-9_\\-]{20,})['\"]?"
+    severity: "critical"
+    description: "API Key détectée"
+    type: "api_key"
+  
+  - pattern: "AKIA[0-9A-Z]{16}"
+    severity: "critical"
+    description: "AWS Access Key"
+    type: "aws_key"
+  
+  - pattern: "eyJ[A-Za-z0-9-_=]+\\.eyJ[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_.+/=]+"
+    severity: "high"
+    description: "JWT Token"
+    type: "jwt"
+  
+  - pattern: "(?i)(password|passwd|pwd|mot\\s+de\\s+passe)\\s*[:=]\\s*['\"]?([^'\"\\s]{6,})['\"]?"
+    severity: "critical"
+    description: "Mot de passe en clair"
+    type: "password"
+  
+  - pattern: "(?i)(iban|compte)\\s*:?\\s*[A-Z]{2}\\d{2}\\s?\\d{4}\\s?\\d{4}\\s?\\d{4}\\s?\\d{4}\\s?\\d{4}"
+    severity: "critical"
+    description: "IBAN bancaire"
+    type: "iban"
