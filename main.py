@@ -7,7 +7,7 @@ load_dotenv()
 
 def main():
     """
-    Point d'entrée de l'application Secure AI Proxy
+    Point d'entree de l'application Secure AI Proxy
     Lance le serveur FastAPI
     """
     
